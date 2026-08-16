@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Gender {
+  male
+  female
+  non_binary
+  prefer_not_to_say
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+enum MatchEndReason {
+  LEFT
+  SKIPPED
+  REPORTED
+  DISCONNECTED
+}
+
+enum ReportReason {
+  harassment
+  explicit_content
+  spam
+  underage
+  other
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  displayName   String
+  avatarUrl     String?
+  gender        Gender?
+  region        String?
+  interests     String[]  @default([])
+  birthDate     DateTime?
+  tosAcceptedAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  refreshTokens     RefreshToken[]
+  sentRequests      Friendship[]   @relation("FriendshipRequester")
+  receivedRequests  Friendship[]   @relation("FriendshipAddressee")
+  matchesAsA        MatchSession[] @relation("MatchSessionUserA")
+  matchesAsB        MatchSession[] @relation("MatchSessionUserB")
+  messages          Message[]
+  reportsFiled      Report[]       @relation("ReportReporter")
+  reportsReceived   Report[]       @relation("ReportReported")
+  blocksInitiated   Block[]        @relation("BlockBlocker")
+  blocksReceived    Block[]        @relation("BlockBlocked")
+
+  @@index([region])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  revokedAt DateTime?
+
+  @@index([userId])
+}
+
+model Friendship {
+  id           String           @id @default(cuid())
+  requesterId  String
+  requester    User             @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addresseeId  String
+  addressee    User             @relation("FriendshipAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+  status       FriendshipStatus @default(PENDING)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@unique([requesterId, addresseeId])
+  @@index([addresseeId])
+}
+
+model MatchSession {
+  id            String          @id @default(cuid())
+  userAId       String
+  userA         User            @relation("MatchSessionUserA", fields: [userAId], references: [id], onDelete: Cascade)
+  userBId       String
+  userB         User            @relation("MatchSessionUserB", fields: [userBId], references: [id], onDelete: Cascade)
+  startedAt     DateTime        @default(now())
+  endedAt       DateTime?
+  endedReason   MatchEndReason?
+  endedByUserId String?
+
+  messages Message[]
+  reports  Report[]
+
+  @@index([userAId])
+  @@index([userBId])
+}
+
+model Message {
+  id             String        @id @default(cuid())
+  roomId         String
+  matchSessionId String?
+  matchSession   MatchSession? @relation(fields: [matchSessionId], references: [id], onDelete: SetNull)
+  senderId       String
+  sender         User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  body           String
+  createdAt      DateTime      @default(now())
+
+  @@index([roomId, createdAt])
+}
+
+model Report {
+  id             String        @id @default(cuid())
+  reporterId     String
+  reporter       User          @relation("ReportReporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedId     String
+  reported       User          @relation("ReportReported", fields: [reportedId], references: [id], onDelete: Cascade)
+  matchSessionId String?
+  matchSession   MatchSession? @relation(fields: [matchSessionId], references: [id], onDelete: SetNull)
+  reason         ReportReason
+  details        String?
+  createdAt      DateTime      @default(now())
+
+  @@index([reportedId])
+}
+
+model Block {
+  id        String   @id @default(cuid())
+  blockerId String
+  blocker   User     @relation("BlockBlocker", fields: [blockerId], references: [id], onDelete: Cascade)
+  blockedId String
+  blocked   User     @relation("BlockBlocked", fields: [blockedId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([blockerId, blockedId])
+  @@index([blockedId])
+}

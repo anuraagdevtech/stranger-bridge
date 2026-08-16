@@ -1,0 +1,25 @@
+{
+  "name": "stranger-bridge",
+  "private": true,
+  "workspaces": [
+    "apps/server",
+    "apps/web",
+    "apps/mobile",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev -w apps/server",
+    "dev:web": "npm run dev -w apps/web",
+    "dev:mobile": "npm run start -w apps/mobile",
+    "build:shared": "npm run build -w packages/shared",
+    "prisma:migrate": "npm run prisma:migrate -w apps/server",
+    "prisma:generate": "npm run prisma:generate -w apps/server",
+    "typecheck": "npm run typecheck -w packages/shared && npm run typecheck -w apps/server && npm run typecheck -w apps/web && npm run typecheck -w apps/mobile"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

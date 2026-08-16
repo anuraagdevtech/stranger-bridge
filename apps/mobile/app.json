@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Stranger Bridge",
+    "slug": "stranger-bridge",
+    "scheme": "strangerbridge",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.strangerbridge.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Stranger Bridge needs camera access for video calls.",
+        "NSMicrophoneUsageDescription": "Stranger Bridge needs microphone access for voice and video calls."
+      }
+    },
+    "android": {
+      "package": "com.strangerbridge.app",
+      "permissions": ["CAMERA", "RECORD_AUDIO"]
+    },
+    "plugins": ["expo-dev-client", "@config-plugins/react-native-webrtc"]
+  }
+}

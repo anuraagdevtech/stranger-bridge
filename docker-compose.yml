@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: stranger-bridge-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: stranger_bridge
+      POSTGRES_PASSWORD: stranger_bridge
+      POSTGRES_DB: stranger_bridge
+    ports:
+      - "5432:5432"
+    volumes:
+      - stranger-bridge-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  stranger-bridge-postgres-data:
