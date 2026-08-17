@@ -72,7 +72,8 @@
             </div>
           </div>
           <div class="header-actions">
-            <button class="icon-button" type="button" aria-label="Start a video call">⌕</button>
+            <button class="icon-button call-launcher" type="button" data-call-type="voice" aria-label="Start a voice call">☎</button>
+            <button class="icon-button call-launcher" type="button" data-call-type="video" aria-label="Start a video call">▣</button>
             <button class="icon-button" type="button" aria-label="Conversation options">•••</button>
           </div>
         </header>
@@ -130,6 +131,29 @@
         </div>
       </section>
     </main>
-    <script src="app.js"></script>
+    <dialog class="call-dialog" id="call-dialog" aria-labelledby="call-title">
+      <section class="call-card">
+        <button class="close-call" type="button" aria-label="Close call setup">×</button>
+        <div class="call-person">
+          <span class="avatar avatar-maya" id="call-avatar">M</span>
+          <p class="call-kicker" id="call-kicker">Ready to connect</p>
+          <h1 id="call-title">Call Maya</h1>
+          <p class="call-status" id="call-status">Choose how you want to start.</p>
+        </div>
+        <video id="local-preview" class="local-preview" autoplay muted playsinline hidden></video>
+        <div class="call-actions call-setup-actions">
+          <button type="button" class="call-mode selected" data-mode="voice" aria-pressed="true">☎ <span>Voice</span></button>
+          <button type="button" class="call-mode" data-mode="video" aria-pressed="false">▣ <span>Video</span></button>
+        </div>
+        <div class="call-actions call-live-actions" hidden>
+          <button type="button" class="call-control" id="mute-call" aria-pressed="false">♩ <span>Mute</span></button>
+          <button type="button" class="call-control" id="toggle-camera" aria-pressed="false">▣ <span>Camera off</span></button>
+          <button type="button" class="end-call" id="end-call">End call</button>
+        </div>
+        <button type="button" class="start-call" id="start-call">Start voice call</button>
+        <p class="call-privacy">Your microphone and camera are only requested when you start a call.</p>
+      </section>
+    </dialog>
+    <script type="module" src="app.js"></script>
   </body>
 </html>
