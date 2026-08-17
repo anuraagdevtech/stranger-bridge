@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Stranger Bridge is a thoughtful chat experience for meeting new people."
+    />
+    <title>Stranger Bridge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">~</span>
+          <span>stranger bridge</span>
+        </div>
+        <button class="new-chat" type="button" id="new-chat">
+          <span aria-hidden="true">+</span> New conversation
+        </button>
+        <div class="sidebar-heading">
+          <span>Conversations</span>
+          <span class="conversation-count">3</span>
+        </div>
+        <nav class="conversation-list" aria-label="Conversations">
+          <button class="conversation active" type="button" data-name="Maya">
+            <span class="avatar avatar-maya">M</span>
+            <span class="conversation-copy">
+              <strong>Maya</strong>
+              <small>That makes total sense!</small>
+            </span>
+            <time datetime="2026-08-16T21:41">9:41 PM</time>
+          </button>
+          <button class="conversation" type="button" data-name="Jules">
+            <span class="avatar avatar-jules">J</span>
+            <span class="conversation-copy">
+              <strong>Jules</strong>
+              <small>Sent you a wave</small>
+            </span>
+            <time datetime="2026-08-16T19:15">7:15 PM</time>
+          </button>
+          <button class="conversation" type="button" data-name="Noah">
+            <span class="avatar avatar-noah">N</span>
+            <span class="conversation-copy">
+              <strong>Noah</strong>
+              <small>See you around!</small>
+            </span>
+            <time datetime="2026-08-15T17:08">Yesterday</time>
+          </button>
+        </nav>
+        <div class="profile">
+          <span class="avatar avatar-you">A</span>
+          <span><strong>Alex</strong><small>Available</small></span>
+          <button class="icon-button" type="button" aria-label="Account settings">•••</button>
+        </div>
+      </aside>
+
+      <section class="chat-panel" aria-label="Chat with Maya">
+        <header class="chat-header">
+          <div>
+            <div class="person">
+              <span class="avatar avatar-maya">M</span>
+              <span><strong id="chat-name">Maya</strong><small><i></i> Online now</small></span>
+            </div>
+          </div>
+          <div class="header-actions">
+            <button class="icon-button" type="button" aria-label="Start a video call">⌕</button>
+            <button class="icon-button" type="button" aria-label="Conversation options">•••</button>
+          </div>
+        </header>
+
+        <div class="safety-note">
+          <span aria-hidden="true">✦</span>
+          <p>Keep it kind. Share only what feels right to you.</p>
+          <button type="button" aria-label="Dismiss safety tip">×</button>
+        </div>
+
+        <section class="messages" id="messages" aria-live="polite">
+          <div class="date-divider"><span>Today</span></div>
+          <article class="message message-them">
+            <p>Hey Alex! I saw you are into collecting little moments from your day. What's one good thing that happened today?</p>
+            <time datetime="2026-08-16T21:37">9:37 PM</time>
+          </article>
+          <article class="message message-me">
+            <p>I took the long way home and found a tiny bookshop I had never noticed before. It felt like a good kind of surprise.</p>
+            <time datetime="2026-08-16T21:39">9:39 PM <span class="read-status" aria-label="Read">✓✓</span></time>
+          </article>
+          <article class="message message-them">
+            <p>Oh, I love that. The best places are often the ones you stumble into. Did you find anything good?</p>
+            <time datetime="2026-08-16T21:40">9:40 PM</time>
+          </article>
+          <article class="message message-me">
+            <p>A collection of essays about walking, which felt very fitting. I think I will go back this weekend.</p>
+            <time datetime="2026-08-16T21:41">9:41 PM <span class="read-status" aria-label="Read">✓✓</span></time>
+            <button class="reaction" type="button" aria-label="Maya reacted with a heart">♥ <span>1</span></button>
+          </article>
+          <article class="message message-them latest">
+            <p>That makes total sense! A slow bookshop browse is one of my favorite weekend rituals.</p>
+            <time datetime="2026-08-16T21:41">9:41 PM</time>
+          </article>
+        </section>
+
+        <div class="typing-indicator" id="typing-indicator" hidden>
+          <span class="avatar avatar-maya">M</span>
+          <span>Maya is typing <b><i></i><i></i><i></i></b></span>
+        </div>
+
+        <div class="composer-area">
+          <div class="reply-suggestions" aria-label="Suggested replies">
+            <button type="button">"That sounds lovely."</button>
+            <button type="button">"Any bookshop favorites?"</button>
+          </div>
+          <form class="composer" id="composer">
+            <button class="composer-action" type="button" aria-label="Add an attachment">+</button>
+            <label class="sr-only" for="message-input">Write a message</label>
+            <textarea id="message-input" rows="1" maxlength="500" placeholder="Write a message..." required></textarea>
+            <button class="send-button" type="submit" aria-label="Send message">
+              <span>Send</span><span aria-hidden="true">↑</span>
+            </button>
+          </form>
+          <p class="composer-hint"><span id="char-count">0</span>/500 · Press Enter to send</p>
+        </div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
